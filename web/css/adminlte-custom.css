@@ -1,0 +1,146 @@
+:root {
+  --primary: #007bff;
+  --secondary: #6c757d;
+  --success: #28a745;
+  --info: #17a2b8;
+  --warning: #ffc107;
+  --danger: #dc3545;
+  --light: #f8f9fa;
+  --dark: #343a40;
+  --cinema-primary: #e74c3c;
+  --cinema-secondary: #2c3e50;
+}
+
+.session-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.session-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.session-card .card-header {
+  background: linear-gradient(
+    135deg,
+    var(--cinema-primary),
+    var(--cinema-secondary)
+  );
+  color: white;
+  border-bottom: none;
+}
+
+.session-card .card-title {
+  font-weight: 600;
+  margin: 0;
+}
+
+.session-details {
+  font-size: 0.9em;
+}
+
+.session-details p {
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.session-details i {
+  margin-right: 8px;
+  width: 16px;
+  text-align: center;
+}
+
+.btn-cinema {
+  background: linear-gradient(
+    135deg,
+    var(--cinema-primary),
+    var(--cinema-secondary)
+  );
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: 500;
+}
+
+.btn-cinema:hover {
+  background: linear-gradient(135deg, #c0392b, #1a252f);
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .session-card {
+    margin-bottom: 15px;
+  }
+
+  .content-header h1 {
+    font-size: 1.5rem;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.session-card {
+  animation: fadeIn 0.6s ease;
+}
+
+.badge-status {
+  font-size: 0.8em;
+  padding: 4px 8px;
+  border-radius: 12px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--cinema-primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #c0392b;
+}
+
+.session-details p {
+    margin-bottom: 5px;
+    font-size: 0.9em;
+}
+.card {
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.control-label {
+    color: #000000 !important;
+    font-weight: 500;
+}
+
+div.field-session-film_id label,
+div.field-session-start_at label,
+div.field-session-price label {
+    color: #000000 !important;
+    font-weight: 500;
+}
+
