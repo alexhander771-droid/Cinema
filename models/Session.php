@@ -65,7 +65,6 @@ class Session extends ActiveRecord
 
 
     /**
-     * //TODO: исправить условие на проверку 30 минут
      * @param string $attribute
      * @param array $params
      * @return void
@@ -108,17 +107,6 @@ class Session extends ActiveRecord
     }
 
 
-    /**
-     * @param Session $model
-     * @return bool
-     */
-    protected function loadAndSaveModel($model)
-    {
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return true;
-        }
-        return false;
-    }
 
     public function getEndTime()
     {
