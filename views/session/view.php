@@ -7,20 +7,19 @@ use yii\widgets\DetailView;
 /** @var app\models\Session $model */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Sessions', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Сеансы', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
 ?>
 <div class="session-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
                 'method' => 'post',
             ],
         ]) ?>
@@ -30,11 +29,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'film_id',
-            'start_at',
-            'price',
-            'created_at',
-            'updated_at',
+            'film.title',
+            'start_at:datetime',
+            'price:currency',
+            'created_at:datetime',
+            'updated_at:datetime',
         ],
     ]) ?>
 

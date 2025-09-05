@@ -2,9 +2,12 @@
 
 namespace app\controllers;
 
-use Yii;
+use app\models\Film;
 use app\models\search\SessionSearch;
 use app\models\Session;
+use Throwable;
+use yii\db\Exception;
+use yii\db\StaleObjectException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -16,19 +19,19 @@ class SessionController extends Controller
     /**
      * @inheritDoc
      */
-    public function behaviors()
+    public function behaviors(): array
     {
         return array_merge(
             parent::behaviors(),
             [
                 'verbs' => [
-                    'class' => VerbFilter::className(),
+                    'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
                     ],
                 ],
                 'access' => [
-                    'class' => AccessControl::className(),
+                    'class' => AccessControl::class,
                     'rules' => [
                         [
                             'allow' => true,
@@ -43,7 +46,7 @@ class SessionController extends Controller
     /**
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex(): string
     {
         $searchModel = new SessionSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
@@ -51,15 +54,16 @@ class SessionController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'films' => Film::find()->select('title')->indexBy('id')->column(),
         ]);
     }
 
     /**
-     * @param int
+     * @param int $id
      * @return string
      * @throws NotFoundHttpException
      */
-    public function actionView($id)
+    public function actionView(int $id): string
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
@@ -67,78 +71,75 @@ class SessionController extends Controller
     }
 
     /**
-     * @param Session $model
-     * @return bool
-     */
-    protected function loadAndSaveModel($model)
-    {
-        if (Yii::$app->request->isPost) {
-            if ($model->load(Yii::$app->request->post())) {
-                return $model->save();
-            }
-        }
-        return false;
-    }
-
-
-    /**
-     * @return string|Response
-     */
-    public function actionCreate()
-    {
-        $model = new Session();
-
-        if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
-            if ($model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-        }
-
-        return $this->render('create', ['model' => $model]);
-    }
-
-    /**
-     * @param int
-     * @return string|\Response
-     * @throws NotFoundHttpException
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($this->loadAndSaveModel($model)) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        return $this->render('update', [
-
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * @param int
-     * @return Response
-     * @throws NotFoundHttpException
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
-
-    /**
-     * @param int
+     * @param int $id
      * @return Session
      * @throws NotFoundHttpException
      */
-    protected function findModel($id)
+    protected function findModel(int $id): Session
     {
         if (($model = Session::findOne($id)) !== null) {
             return $model;
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    /**
+     * @return string|Response
+     * @throws Exception
+     */
+    public function actionCreate()
+    {
+        $model = new Session();
+
+        return $this->loadAndSaveModel($model);
+    }
+
+    /**
+     * @param Session $model
+     * @return string|Response
+     * @throws Exception
+     */
+    protected function loadAndSaveModel(Session $model)
+    {
+        if ($this->request->isPost) {
+            if ($model->load($this->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+        } elseif ($model->isNewRecord) {
+            $model->loadDefaultValues();
+        }
+
+        return $this->render($model->isNewRecord ? 'create' : 'update', [
+            'model' => $model,
+            'films' => Film::find()->select('title')->indexBy('id')->column(),
+        ]);
+    }
+
+    /**
+     * @param int $id
+     * @return string|Response
+     * @throws NotFoundHttpException
+     * @throws Exception
+     */
+    public function actionUpdate(int $id)
+    {
+        $model = $this->findModel($id);
+
+        return $this->loadAndSaveModel($model);
+    }
+
+    /**
+     * @param int $id
+     * @return Response
+     * @throws NotFoundHttpException
+     * @throws Throwable
+     * @throws StaleObjectException
+     */
+    public function actionDelete(int $id): Response
+    {
+        $this->findModel($id)->delete();
+
+        return $this->redirect(['index']);
     }
 }

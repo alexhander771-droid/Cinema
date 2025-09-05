@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+// TODO: убрать неиспользуемые подключения
 use app\models\search\LoginForm;
 use app\models\Session;
 use Yii;
@@ -16,6 +17,7 @@ class SiteController extends Controller
 
     /**
      * {@inheritdoc}
+     * TODO: добавить возвращаемый тип функции вот так behaviors(): array
      */
     public function behaviors()
     {
@@ -41,23 +43,31 @@ class SiteController extends Controller
 
     public function beforeAction($action)
     {
-        $this->layout = 'adminlte';
+        $this->layout = 'adminlte'; // TODO: эту функцию целиком убрать, а 'adminlte' значение вверх в public $layout = 'adminlte'
         return parent::beforeAction($action);
     }
 
+    //TODO: добавить phpDoc и возвращаемый тип функции
     public function actionIndex()
     {
         $query = Session::find()
             ->joinWith('film')
-            ->orderBy('start_at ASC');
+            ->orderBy('start_at ASC'); // TODO зачем раздельно? объединить + добавить проверку, чтобы отображались только предстоящие сеансы
 
         $sessions = $query->all();
+
+        //$sessions = Session::find()
+        //    ->joinWith('film')
+        //    ->orderBy('start_at ASC')
+        //    ->all();
+
 
         return $this->render('index', [
             'sessions' => $sessions,
         ]);
     }
 
+    //TODO: добавить phpDoc и возвращаемый тип функции
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
@@ -75,13 +85,14 @@ class SiteController extends Controller
         ]);
     }
 
+    //TODO: добавить phpDoc и возвращаемый тип функции
     public function actionLogout()
     {
         Yii::$app->user->logout();
         return $this->goHome();
     }
 
-
+    //TODO: добавить phpDoc и возвращаемый тип функции
     public function actionError()
     {
         $exception = Yii::$app->errorHandler->exception;

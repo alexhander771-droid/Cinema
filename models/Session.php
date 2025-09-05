@@ -2,7 +2,9 @@
 
 namespace app\models;
 
-use Yii;
+use DateTime;
+use Exception;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
@@ -20,7 +22,7 @@ class Session extends ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return 'session';
     }
@@ -28,14 +30,14 @@ class Session extends ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['film_id', 'start_at', 'price'], 'required'],
             [['film_id'], 'integer'],
             [['start_at'], 'safe'],
             [['price'], 'number'],
-            [['film_id'], 'exist', 'skipOnError' => true, 'targetClass' => Film::className(), 'targetAttribute' => ['film_id' => 'id']],
+            [['film_id'], 'exist', 'skipOnError' => true, 'targetClass' => Film::class, 'targetAttribute' => ['film_id' => 'id']],
             ['start_at', 'validateSessionTime'],
         ];
     }
@@ -43,7 +45,7 @@ class Session extends ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
@@ -56,26 +58,19 @@ class Session extends ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
-    public function getFilm()
+    public function getFilm(): ActiveQuery
     {
-        return $this->hasOne(Film::className(), ['id' => 'film_id']);
+        return $this->hasOne(Film::class, ['id' => 'film_id']);
     }
 
-
-    /**
-     * @param string $attribute
-     * @param array $params
-     * @return void
-     */
     /**
      * Проверяет, что между сеансами есть интервал не менее 30 минут
      * @param string $attribute
-     * @param array $params
      * @return void
      */
-    public function validateSessionTime($attribute, $params)
+    public function validateSessionTime(string $attribute): void
     {
         if (!$this->hasErrors()) {
             $startTime = strtotime($this->start_at);
@@ -107,11 +102,15 @@ class Session extends ActiveRecord
     }
 
 
-
-    public function getEndTime()
+    /**
+     * Вычисление времени окончания
+     * @return string|null
+     * @throws Exception
+     */
+    public function getEndTime(): ?string
     {
         if ($this->start_at && $this->film) {
-            $start = new \DateTime($this->start_at);
+            $start = new DateTime($this->start_at);
             $start->modify('+' . $this->film->duration . ' minutes');
             return $start->format('Y-m-d H:i:s');
         }

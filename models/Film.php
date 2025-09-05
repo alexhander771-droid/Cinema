@@ -8,6 +8,7 @@ use yii\db\ActiveRecord;
 use yii\web\UploadedFile;
 
 /**
+ * TODO привести в нормальный вид
  * @property int $id
  * * @property int $film_id
  * * @property string $start_time
@@ -54,7 +55,7 @@ class Film extends ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
@@ -73,12 +74,14 @@ class Film extends ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getSessions()
+    public function getSessions(): ActiveQuery
     {
-        return $this->hasMany(Session::className(), ['film_id' => 'id']);
+        return $this->hasMany(Session::class, ['film_id' => 'id']);
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
