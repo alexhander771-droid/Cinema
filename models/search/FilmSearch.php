@@ -1,13 +1,12 @@
 <?php
 
-namespace app\models;
+namespace app\models\search;
 
+use app\models\Film;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
-/**
- * TODO: для красоты файловой структуры можно было переместить в папку models/search
- */
+
 class FilmSearch extends Film
 {
     /**
@@ -21,17 +20,8 @@ class FilmSearch extends Film
         ];
     }
 
-    /**
-     * TODO: если нет логики, то можно убрать
-     * {@inheritdoc}
-     */
-    public function scenarios()
-    {
-        return Model::scenarios();
-    }
 
     /**
-     * //TODO а где названия свойств?
      * @param array $params
      * @param string|null $formName
      * @return ActiveDataProvider

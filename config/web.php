@@ -9,13 +9,15 @@ $config = [
     'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
+        '@npm'   => '@vendor/npm-asset' ,
+        '@uploads' => '@web/uploads/films/',
     ],
     'components' => [
         'view' => [
             'theme' => [
                 'pathMap' => [
-                    '@app/views' => '@app/views/adminlte', 
+                    '@app/views' => '@app/views/adminlte',
+
                 ],
             ],
         ],
@@ -101,21 +103,7 @@ $config = [
             ],
         ],
     ],
-    'params' => [ // TODO под params используй файл, который подключается сверху в переменную $params
-        'adminMenu' => [
-            [
-                'label' => 'Главная',
-                'icon' => 'home',
-                'url' => ['/site/index']
-            ],
-            [
-                'label' => 'Расписание',
-                'icon' => 'calendar',
-                'url' => ['/site/index']
-            ]
-            
-        ]
-    ],
+    'params' =>  $params
 ];
 
 if (YII_ENV_DEV) {

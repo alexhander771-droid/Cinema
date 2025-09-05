@@ -1,13 +1,12 @@
 <?php
 
-namespace app\models;
+namespace app\models\search;
 
+use app\models\Session;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
-/**
- * TODO: для красоты файловой структуры можно было переместить в папку models/search
- */
+
 class SessionSearch extends Session
 {
   /**

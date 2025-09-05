@@ -2,13 +2,12 @@
 
 namespace app\controllers;
 
-use Yii;
 use app\models\Film;
-use app\models\FilmSearch;
+use app\models\search\FilmSearch;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use yii\web\UploadedFile; 
+use yii\web\UploadedFile;
 
 
 class FilmController extends Controller

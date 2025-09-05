@@ -2,14 +2,13 @@
 
 namespace app\controllers;
 
-use Yii;
+use app\models\search\SessionSearch;
 use app\models\Session;
-use app\models\SessionSearch;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
-
+use yii\web\Response;
 
 class SessionController extends Controller
 {
@@ -66,24 +65,21 @@ class SessionController extends Controller
     ]);
   }
 
+
+
   /**
    * @return string|Response
    */
-  public function actionCreate()
+  public function actionCreate($model)
   {
-    $model = new Session();
-
-    if ($this->request->isPost) { // TODO: вынести в отельную функцию
-      if ($model->load($this->request->post()) && $model->save()) {
-        return $this->redirect(['view', 'id' => $model->id]);
+      if ($this->request->isPost) {
+          if ($model->load($this->request->post()) && $model->save()) {
+              return true;
+          }
+      } else {
+          $model->loadDefaultValues();
       }
-    } else {
-      $model->loadDefaultValues();
-    }
-
-    return $this->render('create', [
-      'model' => $model,
-    ]);
+      return false;
   }
 
   /**
@@ -91,18 +87,19 @@ class SessionController extends Controller
    * @return string|\Response
    * @throws NotFoundHttpException
    */
-  public function actionUpdate($id)
-  {
-    $model = $this->findModel($id);
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
 
-    if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) { // TODO: вынести в отельную функцию
-      return $this->redirect(['view', 'id' => $model->id]);
+        if ($this->loadAndSaveModel($model)) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        return $this->render('update', [
+
+            'model' => $model,
+        ]);
     }
-
-    return $this->render('update', [
-      'model' => $model,
-    ]);
-  }
 
   /**
    * @param int 

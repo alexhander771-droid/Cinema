@@ -18,8 +18,6 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
   <?php endif; ?>
 
-    <?php // TODO: что за артефакт остался?
-    ?>
 
   <?= GridView::widget([
     'dataProvider' => $dataProvider,
@@ -33,8 +31,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'value' => function ($model) {
           return $model->film ? $model->film->title : 'Не указан';
         },
-        'filter' => \yii\helpers\ArrayHelper::map(\app\models\Film::find()->all()//TODO: исправить
-                , 'id', 'title')
+          'filter' => \yii\helpers\ArrayHelper::map(
+              \app\models\Film::find()->select(['id', 'title'])->orderBy('title')->asArray()->all(), 'id', 'title')
       ],
       'start_at',
       'price',

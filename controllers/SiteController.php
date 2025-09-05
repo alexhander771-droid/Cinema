@@ -2,17 +2,18 @@
 
 namespace app\controllers;
 
-use Yii;
+use app\models\search\LoginForm;
 use app\models\Session;
-use app\models\User;
-use app\models\LoginForm;
+use Yii;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
-use yii\filters\AccessControl;
 
 class SiteController extends Controller
 {
+    public $layout;
+
     /**
      * {@inheritdoc}
      */
@@ -31,7 +32,7 @@ class SiteController extends Controller
                     [
                         'actions' => ['login', 'error', 'index'],
                         'allow' => true,
-                        'roles' => ['?', '@'], 
+                        'roles' => ['?', '@'],
                     ],
                 ],
             ],
@@ -40,7 +41,7 @@ class SiteController extends Controller
 
     public function beforeAction($action)
     {
-        $this->layout = 'adminlte'; // TODO: внести вверх public $layout
+        $this->layout = 'adminlte';
         return parent::beforeAction($action);
     }
 
@@ -80,10 +81,6 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
-    public function layout() // TODO: убрать
-    {
-        return 'adminlte';
-    }
 
     public function actionError()
     {

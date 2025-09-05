@@ -3,7 +3,6 @@
 use hail812\adminlte3\assets\AdminLteAsset;
 use yii\helpers\Html;
 
-AdminLteAsset::register($this); // TODO: необязательно подключать
 
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
