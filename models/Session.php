@@ -64,6 +64,12 @@ class Session extends ActiveRecord
   }
 
 
+    /**
+     * //TODO: исправить условие на проверку 30 минут
+     * @param string $attribute
+     * @param array $params
+     * @return void
+     */
   public function validateSessionTime($attribute, $params)
   {
     if (!$this->hasErrors()) {

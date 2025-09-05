@@ -4,7 +4,7 @@ use hail812\adminlte3\assets\AdminLteAsset;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-AdminLteAsset::register($this);
+AdminLteAsset::register($this); // TODO: опять же не надо подключать
 
 $this->title = 'Расписание сеансов';
 

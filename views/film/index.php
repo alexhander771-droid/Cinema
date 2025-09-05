@@ -3,7 +3,9 @@
 use hail812\adminlte3\assets\AdminLteAsset;
 use yii\helpers\Html;
 
-AdminLteAsset::register($this);
+AdminLteAsset::register($this); // TODO: необязательно подключать
+
+/** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'Фильмы';
 $this->params['breadcrumbs'][] = $this->title;

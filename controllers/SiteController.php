@@ -40,7 +40,7 @@ class SiteController extends Controller
 
     public function beforeAction($action)
     {
-        $this->layout = 'adminlte';
+        $this->layout = 'adminlte'; // TODO: внести вверх public $layout
         return parent::beforeAction($action);
     }
 
@@ -80,7 +80,7 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
-    public function layout()
+    public function layout() // TODO: убрать
     {
         return 'adminlte';
     }

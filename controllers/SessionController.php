@@ -73,7 +73,7 @@ class SessionController extends Controller
   {
     $model = new Session();
 
-    if ($this->request->isPost) {
+    if ($this->request->isPost) { // TODO: вынести в отельную функцию
       if ($model->load($this->request->post()) && $model->save()) {
         return $this->redirect(['view', 'id' => $model->id]);
       }
@@ -95,7 +95,7 @@ class SessionController extends Controller
   {
     $model = $this->findModel($id);
 
-    if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+    if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) { // TODO: вынести в отельную функцию
       return $this->redirect(['view', 'id' => $model->id]);
     }
 

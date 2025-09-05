@@ -12,7 +12,6 @@ use yii\helpers\Url;
 
 ?>
 <div class="session-item" style="border: 1px solid #585757ff; padding: 15px; margin-bottom: 15px; border-radius: 5px;">
->
 
   <?php if ($model->film->getImageUrl()): ?>
     <img src="<?= $model->film->getImageUrl() ?>" height="150" style="float: left; margin-right: 15px; margin-bottom: 15px;">

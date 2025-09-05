@@ -3,17 +3,19 @@
 namespace app\models;
 
 use Yii;
-use yii\web\UploadedFile;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
+use yii\web\UploadedFile;
 
 /**
- * @property int 
+ * //TODO а где названия свойств?
+ * @property int $id
  * @property string
- * @property string 
- * @property string|null 
- * @property int 
- * @property string 
- * @property string 
+ * @property string
+ * @property string|null
+ * @property int
+ * @property string
+ * @property string
  * @property string
  *
  * @property Session[]
@@ -76,35 +78,40 @@ class Film extends ActiveRecord
     return $this->hasMany(Session::className(), ['film_id' => 'id']);
   }
 
-  public function beforeSave($insert)
-  {
-    if (!parent::beforeSave($insert)) {
-      return false;
+    public function beforeSave($insert) // TODO: если нет никакой логики внутри, то можно было убрать из кода
+    {
+        if (!parent::beforeSave($insert)) {
+            return false;
+        }
+        return true;
     }
-    return true;
-  }
 
   public function afterSave($insert, $changedAttributes)
   {
     parent::afterSave($insert, $changedAttributes);
 
-    if ($this->imageFile) {
-      $uploadPath = Yii::getAlias('@webroot/uploads/films/');
-      if (!file_exists($uploadPath)) {
-        mkdir($uploadPath, 0777, true);
-      }
-      $fileName = $this->id . '.' . $this->imageFile->extension;
-      $filePath = $uploadPath . $fileName;
-      $this->imageFile->saveAs($filePath);
-      $this->updateAttributes(['photo_ext' => $this->imageFile->extension]);
-    }
-  }
+        if ($this->imageFile) {
+            $uploadPath = Yii::getAlias('@webroot/uploads/films/'); // TODO для идеала можно было добавить alias в web.php @uploads => '@web/uploads/films/'
 
-  public function getImageUrl()
-  {
-    if (empty($this->photo_ext)) {
-      return null;
+            if (!file_exists($uploadPath)) {
+                mkdir($uploadPath, 0777, true);
+            }
+
+            $fileName = $this->id . '.' . $this->imageFile->extension;
+            $filePath = $uploadPath . $fileName;
+            $this->imageFile->saveAs($filePath);
+            $this->updateAttributes(['photo_ext' => $this->imageFile->extension]);
+        }
     }
-    return Yii::getAlias('@web/uploads/films/') . $this->id . '.' . $this->photo_ext;
-  }
+
+    public function getImageUrl()
+    {
+        if (empty($this->photo_ext)) {
+            return null;
+        }
+        //TODO: можно было добавить еще проверку на существование файла
+
+        return Yii::getAlias('@web/uploads/films/') // TODO для идеала можно было добавить alias
+            . $this->id . '.' . $this->photo_ext;
+    }
 }

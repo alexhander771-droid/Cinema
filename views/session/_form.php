@@ -5,16 +5,20 @@ use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use app\models\Film;
 
+/** @var app\models\Session $model */
+/** @var Film[] $films */
+
 ?>
 
 <div class="session-form">
 
   <?php $form = ActiveForm::begin(); ?>
 
-  <?= $form->field($model, 'film_id')->dropDownList(
-    ArrayHelper::map(Film::find()->all(), 'id', 'title'),
-    ['prompt' => 'Выберите фильм']
-  ) ?>
+    <?= $form->field($model, 'film_id')->dropDownList(
+            ArrayHelper::map(Film::find()->all(), // TODO: лучше так не делать
+                    'id', 'title'),
+            ['prompt' => 'Выберите фильм']
+    ) ?>
 
   <?= $form->field($model, 'start_at')->textInput(['type' => 'datetime-local']) ?>
 
