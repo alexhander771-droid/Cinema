@@ -14,10 +14,13 @@ class Yii {
  * 
  */
 class __Application {
+    public $errorHandler;
+    public $request;
 }
 
 /**
  * @property app\models\User $identity
  */
 class __WebUser {
+    public $isGuest;
 }

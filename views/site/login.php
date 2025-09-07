@@ -15,11 +15,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
   <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 
-  <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+  <?= $form->field($model, 'ваше имя')->textInput(['autofocus' => true]) ?>
 
-  <?= $form->field($model, 'password')->passwordInput() ?>
+  <?= $form->field($model, 'пароль')->passwordInput() ?>
 
-  <?= $form->field($model, 'rememberMe')->checkbox() ?>
+  <?= $form->field($model, 'запомнить')->checkbox() ?>
 
   <div class="form-group">
     <?= Html::submitButton('Войти', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>

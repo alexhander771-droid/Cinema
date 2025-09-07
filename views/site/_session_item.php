@@ -3,12 +3,6 @@
 use yii\grid\GridView;
 use app\assets\AppAsset;
 use app\widgets\Alert;
-use yii\bootstrap5\Breadcrumbs;
-use yii\bootstrap5\Html;
-use yii\bootstrap5\Nav;
-use yii\bootstrap5\NavBar;
-use yii\helpers\Url;
-
 
 ?>
 <div class="session-item" style="border: 1px solid #585757ff; padding: 15px; margin-bottom: 15px; border-radius: 5px;">

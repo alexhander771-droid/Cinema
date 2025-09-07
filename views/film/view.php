@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?php
 echo "User ID: " . Yii::$app->user->id . "<br>";
-echo "Is guest: " . (Yii::$app->user->isGuest ? 'yes' : 'no') . "<br>";
+echo "Is guest: " . (Yii::$app->user->isGuest ? 'Да' : 'Нет') . "<br>";
 echo "Username: " . Yii::$app->user->identity->username . "<br>";
 ?>
 <div class="film-view">
@@ -21,8 +21,8 @@ echo "Username: " . Yii::$app->user->identity->username . "<br>";
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn bg-secondary ']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('Добавить', ['update', 'id' => $model->id], ['class' => 'btn bg-secondary ']) ?>
+        <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn bg-secondary',
             'data' => [
                 'confirm' => 'Удалить?',

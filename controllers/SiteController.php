@@ -2,24 +2,21 @@
 
 namespace app\controllers;
 
-// TODO: убрать неиспользуемые подключения
+
 use app\models\search\LoginForm;
 use app\models\Session;
 use Yii;
-use yii\data\ActiveDataProvider;
-use yii\filters\AccessControl;
-use yii\web\Controller;
-use yii\web\Response;
 
 class SiteController extends Controller
 {
-    public $layout;
+    public $layout = 'adminlte';
 
     /**
      * {@inheritdoc}
-     * TODO: добавить возвращаемый тип функции вот так behaviors(): array
+     *
+     * @return array Массив с настройками поведений
      */
-    public function behaviors()
+    public function behaviors(): array
     {
         return [
             'access' => [
@@ -41,64 +38,74 @@ class SiteController extends Controller
         ];
     }
 
-    public function beforeAction($action)
-    {
-        $this->layout = 'adminlte'; // TODO: эту функцию целиком убрать, а 'adminlte' значение вверх в public $layout = 'adminlte'
-        return parent::beforeAction($action);
-    }
 
-    //TODO: добавить phpDoc и возвращаемый тип функции
-    public function actionIndex()
+    /**
+     * Отображает список предстоящих сеансов
+     *
+     * @return string Результат рендеринга представления
+     */
+    public function actionIndex(): string
     {
-        $query = Session::find()
+        $sessions = Session::find()
             ->joinWith('film')
-            ->orderBy('start_at ASC'); // TODO зачем раздельно? объединить + добавить проверку, чтобы отображались только предстоящие сеансы
-
-        $sessions = $query->all();
-
-        //$sessions = Session::find()
-        //    ->joinWith('film')
-        //    ->orderBy('start_at ASC')
-        //    ->all();
-
+            ->where(['>=', 'start_at', new Expression('NOW()')])
+            ->orderBy(['start_at' => SORT_ASC])
+            ->all();
 
         return $this->render('index', [
             'sessions' => $sessions,
         ]);
     }
-
-    //TODO: добавить phpDoc и возвращаемый тип функции
-    public function actionLogin()
+    /**
+     * Авторизация пользователя
+     *
+     * @return string|\yii\web\Response Результат рендеринга формы авторизации или редирект
+     */
+    public function actionLogin(): string|\yii\web\Response
     {
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
         $model = new LoginForm();
+
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
         }
 
         $model->password = '';
+
         return $this->render('login', [
             'model' => $model,
         ]);
     }
 
-    //TODO: добавить phpDoc и возвращаемый тип функции
-    public function actionLogout()
+    /**
+     * Выход пользователя из системы
+     *
+     * @return \yii\web\Response Редирект на главную страницу
+     */
+    public function actionLogout(): \yii\web\Response
     {
         Yii::$app->user->logout();
         return $this->goHome();
     }
 
-    //TODO: добавить phpDoc и возвращаемый тип функции
-    public function actionError()
+    /**
+     * Обработчик ошибок приложения
+     *
+     * @return string Результат рендеринга страницы ошибки
+     */
+    public function actionError(): string
     {
         $exception = Yii::$app->errorHandler->exception;
+
         if ($exception !== null) {
-            return $this->render('error', ['exception' => $exception]);
+            return $this->render('error', [
+                'exception' => $exception,
+            ]);
         }
+
         return $this->render('error');
     }
 }

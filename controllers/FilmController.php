@@ -4,25 +4,25 @@ namespace app\controllers;
 
 use app\models\Film;
 use app\models\search\FilmSearch;
-use yii\filters\VerbFilter;
-use yii\web\Controller;
-use yii\web\NotFoundHttpException;
-use yii\web\UploadedFile;
+use http\Client\Response;
 
 
 class FilmController extends Controller
 {
+    private $request;
+
     /**
-     * @inheritDoc
-     * TODO: добавить возвращаемый тип функции
+     * {@inheritDoc}
+     *
+     * @return array<string, mixed> Массив конфигураций поведений
      */
-    public function behaviors()
+    public function behaviors(): array
     {
         return array_merge(
             parent::behaviors(),
             [
                 'verbs' => [
-                    'class' => VerbFilter::className(), //TODO заменить className() на class
+                    'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
                     ],
@@ -32,10 +32,11 @@ class FilmController extends Controller
     }
 
     /**
-     * @return string
-     * TODO: добавить возвращаемый тип функции
+     * Отображает список фильмов с возможностью поиска
+     *
+     * @return string Результат рендеринга страницы
      */
-    public function actionIndex()
+    public function actionIndex(): string
     {
         $searchModel = new FilmSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
@@ -47,11 +48,13 @@ class FilmController extends Controller
     }
 
     /**
-     * @param int //TODO добавить название переменной
-     * @return string
-     * @throws NotFoundHttpException
+     * Отображает детальную информацию о фильме
+     *
+     * @param int $id ID фильма
+     * @return string Результат рендеринга страницы
+     * @throws NotFoundHttpException Если фильм не найден
      */
-    public function actionView($id) // TODO: добавить возвращаемый тип функции
+    public function actionView(int $id): string
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
@@ -59,12 +62,13 @@ class FilmController extends Controller
     }
 
     /**
-     * @param int TODO: добавить название переменной
-     * @return Film
-     * @throws NotFoundHttpException
-     * TODO: добавить возвращаемый тип функции
+     * Находит модель фильма по ID
+     *
+     * @param int $id ID фильма
+     * @return Film Найденная модель фильма
+     * @throws NotFoundHttpException Если фильм не найден
      */
-    protected function findModel($id)
+    protected function findModel(int $id): Film
     {
         if (($model = Film::findOne(['id' => $id])) !== null) {
             return $model;
@@ -74,20 +78,21 @@ class FilmController extends Controller
     }
 
     /**
-     * @return string|Response
-     * TODO: добавить возвращаемый тип функции и функцию переделать так же как в SessionController
+     * Создание нового фильма
+     *
+     * @return string|Response Результат рендеринга формы или редирект
      */
-    public function actionCreate()
+    public function actionCreate(): string|Response
     {
         $model = new Film();
         $model->scenario = 'create';
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post())) {
-                $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-                if ($model->save()) {
-                    return $this->redirect(['view', 'id' => $model->id]);
-                }
+            $model->load($this->request->post());
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
             $model->loadDefaultValues();
@@ -99,22 +104,23 @@ class FilmController extends Controller
     }
 
     /**
-     * @param int
-     * @return string|Response
-     * @throws NotFoundHttpException
-     * TODO: добавить возвращаемый тип функции и функцию переделать так же как в SessionController
+     * Обновление информации о фильме
+     *
+     * @param int $id ID фильма
+     * @return string|Response Результат рендеринга формы или редирект
+     * @throws NotFoundHttpException Если фильм не найден
      */
-    public function actionUpdate($id)
+    public function actionUpdate(int $id): string|Response
     {
         $model = $this->findModel($id);
         $model->scenario = 'update';
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post())) {
-                $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-                if ($model->save()) {
-                    return $this->redirect(['view', 'id' => $model->id]);
-                }
+            $model->load($this->request->post());
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
             }
         }
 
@@ -124,12 +130,13 @@ class FilmController extends Controller
     }
 
     /**
-     * @param int TODO: добавить название переменной
-     * @return Response
-     * @throws NotFoundHttpException
-     * TODO: добавить возвращаемый тип функции
+     * Удаление фильма
+     *
+     * @param int $id ID фильма
+     * @return Response Редирект на страницу списка фильмов
+     * @throws NotFoundHttpException Если фильм не найден
      */
-    public function actionDelete($id)
+    public function actionDelete(int $id): Response
     {
         $this->findModel($id)->delete();
 
