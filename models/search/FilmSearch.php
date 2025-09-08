@@ -3,23 +3,20 @@
 namespace app\models\search;
 
 use app\models\Film;
-use yii\base\Model;
 use yii\data\ActiveDataProvider;
-
 
 class FilmSearch extends Film
 {
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['id', 'duration'], 'integer'],
             [['title', 'photo_ext', 'description', 'age_restriction', 'created_at', 'updated_at'], 'safe'],
         ];
     }
-
 
     /**
      * @param array $params
@@ -36,7 +33,6 @@ class FilmSearch extends Film
         $this->load($params, $formName);
 
         if (!$this->validate()) {
-
             return $dataProvider;
         }
 

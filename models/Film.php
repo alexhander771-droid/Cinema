@@ -104,11 +104,6 @@ class Film extends ActiveRecord
 
         if ($this->imageFile) {
             $uploadPath = Yii::getAlias('@uploads/films/');
-
-            if (!file_exists($uploadPath)) {
-                mkdir($uploadPath, 0777, true);
-            }
-
             $fileName = $this->id . '.' . $this->imageFile->extension;
             $filePath = $uploadPath . $fileName;
 

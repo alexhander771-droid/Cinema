@@ -1,59 +1,59 @@
 <?php
 
-namespace app\models\search;
+namespace app\models;
 
 use Yii;
 use yii\base\Model;
 
-
 class ContactForm extends Model
 {
-  public $name;
-  public $email;
-  public $subject;
-  public $body;
-  public $verifyCode;
+    public $name;
+    public $email;
+    public $subject;
+    public $body;
 
-
-  /**
-   * @return array 
-   */
-  public function rules()
-  {
-    return [
-      [['name', 'email', 'subject', 'body'], 'required'],
-      ['email', 'email'],
-      ['verifyCode', 'captcha'],
-    ];
-  }
-
-  /**
-   * @return array 
-   */
-  public function attributeLabels()
-  {
-    return [
-      'verifyCode' => 'Verification Code',
-    ];
-  }
-
-  /**
-   *      * @param string 
-   * @return bool 
-   */
-  public function contact($email)
-  {
-    if ($this->validate()) {
-      Yii::$app->mailer->compose()
-        ->setTo($email)
-        ->setFrom([Yii::$app->params['senderEmail'] => Yii::$app->params['senderName']])
-        ->setReplyTo([$this->email => $this->name])
-        ->setSubject($this->subject)
-        ->setTextBody($this->body)
-        ->send();
-
-      return true;
+    /**
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            [['name', 'email', 'subject', 'body'], 'required'],
+            ['email', 'email'],
+            ['verifyCode', 'captcha'],
+        ];
     }
-    return false;
-  }
+
+    /**
+     * @return array
+     */
+    public function attributeLabels()
+    {
+        return [
+            'name' => 'Имя',
+            'email' => 'Email',
+            'subject' => 'Тема',
+            'body' => 'Сообщение',
+            'verifyCode' => 'Код проверки',
+        ];
+    }
+
+    /**
+     * Отправляет email
+     * @param string $email получатель
+     * @return bool успех отправки
+     */
+    public function contact($email)
+    {
+        if ($this->validate()) {
+            return Yii::$app->mailer->compose()
+                ->setTo($email)
+                ->setFrom([Yii::$app->params['senderEmail'] => Yii::$app->params['senderName']])
+                ->setReplyTo([$this->email => $this->name])
+                ->setSubject($this->subject)
+                ->setTextBody($this->body)
+                ->send();
+        }
+        return false;
+    }
 }

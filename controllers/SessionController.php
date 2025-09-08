@@ -6,6 +6,11 @@ use app\models\Film;
 use app\models\search\SessionSearch;
 use app\models\Session;
 use Throwable;
+use yii\filters\VerbFilter;
+use yii\web\NotFoundHttpException;
+use yii\web\Response;
+use yii\web\Controller;
+use yii\filters\AccessControl;
 
 
 class SessionController extends Controller

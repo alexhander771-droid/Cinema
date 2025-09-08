@@ -4,13 +4,15 @@ namespace app\controllers;
 
 use app\models\Film;
 use app\models\search\FilmSearch;
-use http\Client\Response;
-
+use Yii;
+use yii\filters\VerbFilter;
+use yii\web\NotFoundHttpException;
+use yii\web\Response;
+use yii\web\UploadedFile;
+use yii\web\Controller;
 
 class FilmController extends Controller
 {
-    private $request;
-
     /**
      * {@inheritDoc}
      *
@@ -39,7 +41,7 @@ class FilmController extends Controller
     public function actionIndex(): string
     {
         $searchModel = new FilmSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -82,13 +84,13 @@ class FilmController extends Controller
      *
      * @return string|Response Результат рендеринга формы или редирект
      */
-    public function actionCreate(): string|Response
+    public function actionCreate()
     {
         $model = new Film();
         $model->scenario = 'create';
 
-        if ($this->request->isPost) {
-            $model->load($this->request->post());
+        if (Yii::$app->request->isPost) {
+            $model->load(Yii::$app->request->post());
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
 
             if ($model->save()) {
@@ -110,13 +112,13 @@ class FilmController extends Controller
      * @return string|Response Результат рендеринга формы или редирект
      * @throws NotFoundHttpException Если фильм не найден
      */
-    public function actionUpdate(int $id): string|Response
+    public function actionUpdate(int $id)
     {
         $model = $this->findModel($id);
         $model->scenario = 'update';
 
-        if ($this->request->isPost) {
-            $model->load($this->request->post());
+        if (Yii::$app->request->isPost) {
+            $model->load(Yii::$app->request->post());
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
 
             if ($model->save()) {
