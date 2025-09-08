@@ -4,7 +4,7 @@ namespace app\models\search;
 
 use app\models\Session;
 use yii\data\ActiveDataProvider;
-
+use yii\db\Expression;
 class SessionSearch extends Session
 {
     /**
