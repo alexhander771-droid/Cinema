@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
+/** @var TYPE_NAME $model */
 
 
 $this->title = 'Вход в админку';

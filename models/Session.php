@@ -92,7 +92,7 @@ class Session extends ActiveRecord
                         ['>=', "DATE_ADD(start_at, INTERVAL (SELECT duration FROM film WHERE film.id = session.film_id) MINUTE)", date('Y-m-d H:i:s', $startTimeWithInterval)]
                     ]
                 ])
-                ->andWhere(['not', ['id' => $this->id]])
+                ->andWhere(['Нет', ['id' => $this->id]])
                 ->exists();
 
             if ($conflictingSessions) {
@@ -111,7 +111,7 @@ class Session extends ActiveRecord
     {
         if ($this->start_at && $this->film) {
             $start = new DateTime($this->start_at);
-            $start->modify('+' . $this->film->duration . ' minutes');
+            $start->modify('+' . $this->film->duration . ' Минут');
             return $start->format('Y-m-d H:i:s');
         }
         return null;

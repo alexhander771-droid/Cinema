@@ -2,8 +2,9 @@
 
 use hail812\adminlte3\assets\AdminLteAsset;
 use yii\helpers\Html;
-
+/** @var TYPE_NAME $content */
 AdminLteAsset::register($this);
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -29,7 +30,8 @@ AdminLteAsset::register($this);
 
         <div class="content">
             <div class="container-fluid">
-                <?= $content ?>
+
+                $content ?>
             </div>
         </div>
     </div>

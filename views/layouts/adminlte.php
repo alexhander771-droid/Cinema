@@ -37,9 +37,9 @@ AdminLteAsset::register($this);
             <span class="brand-text font-weight-light">Cinema</span>
         </a>
 
- 
+
         <div class="sidebar">
-        
+
             <nav class="mt-2">
                 <?= \hail812\adminlte3\widgets\Menu::widget([
                     'items' => [
@@ -49,11 +49,11 @@ AdminLteAsset::register($this);
                             'url' => ['/site/index']
                         ],
                         [
-                            'label' => 'Админка', 
+                            'label' => 'Админка',
                             'icon' => 'calendar',
                             'url' => ['/session/index']
                         ]
-                       
+
                     ]
                 ]) ?>
             </nav>
@@ -61,12 +61,13 @@ AdminLteAsset::register($this);
     </aside>
 
     <div class="content-wrapper">
-  
-        
+
+
 
         <section class="content">
             <div class="container-fluid">
-                <?= $content ?>
+                <?= /** @var TYPE_NAME $content */
+                $content ?>
             </div>
         </section>
     </div>

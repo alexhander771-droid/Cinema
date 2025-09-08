@@ -47,8 +47,8 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             'id' => 'ID',
             'username' => 'Логин',
-            'password_hash' => 'Password Hash',
-            'auth_key' => 'Auth Key',
+            'password_hash' => 'Хеш пароля',
+            'auth_key' => 'Ключ',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
@@ -78,7 +78,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByUsername(string $username): ?self
     {
-        return static::findOne(['username' => $username]);
+        return static::findOne(['имя пользователя' => $username]);
     }
 
     /**

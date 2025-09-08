@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
+/** @var TYPE_NAME $model */
 
 ?>
 
@@ -10,7 +11,8 @@ use yii\widgets\ActiveForm;
 
   <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
-  <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+
+  $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
   <?= $form->field($model, 'imageFile')->fileInput() ?>
   <?php if (!$model->isNewRecord && $model->photo_ext): ?>

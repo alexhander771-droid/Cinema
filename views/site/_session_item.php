@@ -4,12 +4,14 @@ use yii\grid\GridView;
 use app\assets\AppAsset;
 use app\widgets\Alert;
 
+/** @var TYPE_NAME $model */
 ?>
 <div class="session-item" style="border: 1px solid #585757ff; padding: 15px; margin-bottom: 15px; border-radius: 5px;">
 
-  <?php if ($model->film->getImageUrl()): ?>
+
+  if ($model->film->getImageUrl()): ?>
     <img src="<?= $model->film->getImageUrl() ?>" height="150" style="float: left; margin-right: 15px; margin-bottom: 15px;">
-  <?php endif; ?>
+
 
   <p><strong>Описание:</strong> <?= Html::encode($model->film->description) ?></p>
   <p><strong>Время начала:</strong> <?= Yii::$app->formatter->asDatetime($model->start_at) ?></p>

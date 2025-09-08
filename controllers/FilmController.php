@@ -50,7 +50,6 @@ class FilmController extends Controller
     }
 
     /**
-     * Отображает детальную информацию о фильме
      *
      * @param int $id ID фильма
      * @return string Результат рендеринга страницы
@@ -64,7 +63,72 @@ class FilmController extends Controller
     }
 
     /**
-     * Находит модель фильма по ID
+     * Создание нового фильма
+     *
+     * @return string|Response Результат рендеринга формы или редирект
+     */
+    public function actionCreate()
+    {
+        $model = new Film();
+        $model->scenario = 'create';
+
+        return $this->processFilm($model, 'create');
+    }
+
+    /**
+     *
+     * @param int $id ID фильма
+     * @return string|Response Результат рендеринга формы или редирект
+     * @throws NotFoundHttpException Если фильм не найден
+     */
+    public function actionUpdate(int $id)
+    {
+        $model = $this->findModel($id);
+        $model->scenario = 'update';
+
+        return $this->processFilm($model, 'update');
+    }
+
+    /**
+     *
+     * @param Film $model Модель фильма
+     * @param string $viewName Название представления
+     * @return string|Response Результат рендеринга формы или редирект
+     */
+    private function processFilm(Film $model, string $viewName)
+    {
+        if (Yii::$app->request->isPost) {
+            $model->load(Yii::$app->request->post());
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+        } else {
+            if ($viewName === 'Сохранить') {
+                $model->loadDefaultValues();
+            }
+        }
+
+        return $this->render($viewName, [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     *
+     * @param int $id ID фильма
+     * @return Response Редирект на страницу списка фильмов
+     * @throws NotFoundHttpException Если фильм не найден
+     */
+    public function actionDelete(int $id): Response
+    {
+        $this->findModel($id)->delete();
+
+        return $this->redirect(['index']);
+    }
+
+    /**
      *
      * @param int $id ID фильма
      * @return Film Найденная модель фильма
@@ -77,71 +141,5 @@ class FilmController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
-    }
-
-    /**
-     * Создание нового фильма
-     *
-     * @return string|Response Результат рендеринга формы или редирект
-     */
-    public function actionCreate()
-    {
-        $model = new Film();
-        $model->scenario = 'create';
-
-        if (Yii::$app->request->isPost) {
-            $model->load(Yii::$app->request->post());
-            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-
-            if ($model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-        } else {
-            $model->loadDefaultValues();
-        }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Обновление информации о фильме
-     *
-     * @param int $id ID фильма
-     * @return string|Response Результат рендеринга формы или редирект
-     * @throws NotFoundHttpException Если фильм не найден
-     */
-    public function actionUpdate(int $id)
-    {
-        $model = $this->findModel($id);
-        $model->scenario = 'update';
-
-        if (Yii::$app->request->isPost) {
-            $model->load(Yii::$app->request->post());
-            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-
-            if ($model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Удаление фильма
-     *
-     * @param int $id ID фильма
-     * @return Response Редирект на страницу списка фильмов
-     * @throws NotFoundHttpException Если фильм не найден
-     */
-    public function actionDelete(int $id): Response
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
     }
 }

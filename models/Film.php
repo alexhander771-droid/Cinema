@@ -127,7 +127,7 @@ class Film extends ActiveRecord
         $filePath = Yii::getAlias('@uploads/films/') . $this->id . '.' . $this->photo_ext;
 
         if (!file_exists($filePath)) {
-            Yii::warning("Image file not found: {$filePath}", __METHOD__);
+            Yii::warning("Файл изображения не найден: {$filePath}", __METHOD__);
             return null;
         }
 

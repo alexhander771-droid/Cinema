@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 
+/** @var TYPE_NAME $model */
 
 $this->title = 'Update Film: ' . $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Films', 'url' => ['index']];

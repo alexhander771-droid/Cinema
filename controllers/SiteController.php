@@ -103,11 +103,11 @@ class SiteController extends Controller
         $exception = Yii::$app->errorHandler->exception;
 
         if ($exception !== null) {
-            return $this->render('error', [
+            return $this->render('Ошибка', [
                 'exception' => $exception,
             ]);
         }
 
-        return $this->render('error');
+        return $this->render('Ошибка');
     }
 }
