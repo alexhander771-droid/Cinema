@@ -26,8 +26,8 @@ class SessionSearch extends Session
      */
     public function search(array $params): ActiveDataProvider
     {
-        $query = Session::find()->joinWith('film');
-
+        $query = Session::find()->joinWith('film')
+        ->where(['>=', 'start_at', new Expression('NOW()')]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
