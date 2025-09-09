@@ -77,7 +77,7 @@ $this->title = 'Расписание сеансов';
                                                                 ['class' => 'btn bg-light']) ?>
                                                             <?= Html::a(' Удалить', ['/session/delete', 'id' => $session->id],
                                                                 [
-                                                                    'class' => 'btn bg-secondar',
+                                                                    'class' => 'btn bg-secondary',
                                                                     'data' => [
                                                                         'confirm' => 'Удалить этот сеанс?',
                                                                         'method' => 'post',

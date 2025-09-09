@@ -15,14 +15,16 @@ class ContactForm extends Model
     /**
      * @return array
      */
+
     public function rules()
     {
         return [
-            [['name', 'email', 'subject', 'body'], 'required'],
-            ['email', 'email'],
-            ['verifyCode', 'captcha'],
+            [['name', 'email', 'subject', 'body'], 'required', 'message' => 'Поле обязательно для заполнения.'],
+            ['email', 'email', 'message' => 'Введите корректный email.'],
+            ['verifyCode', 'captcha', 'message' => 'Неверный код проверки.'],
         ];
     }
+
 
     /**
      * @return array

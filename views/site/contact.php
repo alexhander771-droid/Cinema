@@ -1,8 +1,10 @@
 <?php
-
+use yii\captcha\Captcha;
+use yii\helpers\Html;
+use yii\bootstrap5\ActiveForm;
 /** @var yii\web\View $this */
 /** @var yii\bootstrap5\ActiveForm $form */
-/** @var \app\models\search\ContactForm $model */
+/** @var \app\models\search\SessionSearch $model */
 
 
 $this->title = 'Contact';

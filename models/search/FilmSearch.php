@@ -10,13 +10,18 @@ class FilmSearch extends Film
     /**
      * {@inheritdoc}
      */
+
     public function rules(): array
     {
         return [
-            [['id', 'duration'], 'integer'],
-            [['title', 'photo_ext', 'description', 'age_restriction', 'created_at', 'updated_at'], 'safe'],
+            [['id', 'duration'], 'integer', 'message' => 'Значение должно быть целым числом.'],
+            [
+                ['title', 'photo_ext', 'description', 'age_restriction', 'created_at', 'updated_at'],
+                'safe'
+            ],
         ];
     }
+
 
     /**
      * @param array $params

@@ -2,7 +2,7 @@
 
 use hail812\adminlte3\assets\AdminLteAsset;
 use yii\helpers\Html;
-/** @var TYPE_NAME $content */
+/** @var string $content */
 AdminLteAsset::register($this);
 
 ?>
@@ -31,7 +31,7 @@ AdminLteAsset::register($this);
         <div class="content">
             <div class="container-fluid">
 
-                $content ?>
+                <?= $content ?>
             </div>
         </div>
     </div>

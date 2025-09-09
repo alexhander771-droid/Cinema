@@ -13,9 +13,9 @@ class SessionSearch extends Session
     public function rules(): array
     {
         return [
-            [['id', 'film_id'], 'integer'],
+            [['id', 'film_id'], 'integer', 'message' => 'Значение должно быть целым числом.'],
             [['start_at'], 'safe'],
-            [['price'], 'number'],
+            [['price'], 'number', 'message' => 'Значение должно быть числом.'],
         ];
     }
 

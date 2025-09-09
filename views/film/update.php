@@ -2,12 +2,12 @@
 
 use yii\helpers\Html;
 
-/** @var TYPE_NAME $model */
+/** @var \app\models\search\FilmSearch $model */
 
-$this->title = 'Update Film: ' . $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Films', 'url' => ['index']];
+$this->title = 'Редактировать фильм: ' . $model->title;
+$this->params['breadcrumbs'][] = ['label' => 'Фильмы', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Редактировать';
 ?>
 <div class="film-update">
 

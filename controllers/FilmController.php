@@ -105,7 +105,7 @@ class FilmController extends Controller
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
-            if ($viewName === 'Сохранить') {
+            if ($viewName === 'create') {
                 $model->loadDefaultValues();
             }
         }

@@ -20,14 +20,14 @@ class LoginForm extends Model
   /**
    * {@inheritdoc}
    */
-  public function rules()
-  {
-    return [
-      [['username', 'password'], 'required'],
-      ['rememberMe', 'boolean'],
-      ['password', 'validatePassword'],
-    ];
-  }
+    public function rules()
+    {
+        return [
+            [['username', 'password'], 'required', 'message' => 'Поле обязательно для заполнения.'],
+            ['rememberMe', 'boolean'],
+            ['password', 'validatePassword'],
+        ];
+    }
 
   /**
    * {@inheritdoc}

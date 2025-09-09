@@ -33,11 +33,18 @@ class Session extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['film_id', 'start_at', 'price'], 'required'],
-            [['film_id'], 'integer'],
+            [['film_id', 'start_at', 'price'], 'required', 'message' => 'Поле обязательно для заполнения.'],
+            [['film_id'], 'integer', 'message' => 'Значение должно быть целым числом.'],
             [['start_at'], 'safe'],
-            [['price'], 'number'],
-            [['film_id'], 'exist', 'skipOnError' => true, 'targetClass' => Film::class, 'targetAttribute' => ['film_id' => 'id']],
+            [['price'], 'number', 'message' => 'Значение должно быть числом.'],
+            [
+                ['film_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => Film::class,
+                'targetAttribute' => ['film_id' => 'id'],
+                'message' => 'Указанный фильм не найден.'
+            ],
             ['start_at', 'validateSessionTime'],
         ];
     }
@@ -111,7 +118,7 @@ class Session extends ActiveRecord
     {
         if ($this->start_at && $this->film) {
             $start = new DateTime($this->start_at);
-            $start->modify('+' . $this->film->duration . ' Минут');
+            $start->modify('+' . $this->film->duration .' minutes');
             return $start->format('Y-m-d H:i:s');
         }
         return null;

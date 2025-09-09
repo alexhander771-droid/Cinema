@@ -43,9 +43,9 @@ class Film extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['title', 'duration', 'age_restriction'], 'required'],
+            [['title', 'duration', 'age_restriction'], 'required', 'message' => 'Поле обязательно для заполнения.'],
             [['description'], 'string'],
-            [['duration'], 'integer', 'min' => 1],
+            [['duration'], 'integer', 'min' => 1, 'tooSmall' => 'Продолжительность должна быть больше 0.', 'message' => 'Значение должно быть целым числом.'],
             [['title'], 'string', 'max' => 255],
             [['age_restriction'], 'string', 'max' => 10],
             [
@@ -54,7 +54,9 @@ class Film extends ActiveRecord
                 'skipOnEmpty' => false,
                 'on' => 'create',
                 'extensions' => 'png, jpg, jpeg',
-                'maxSize' => 2 * 1024 * 1024
+                'maxSize' => 2 * 1024 * 1024,
+                'tooBig' => 'Размер файла не должен превышать 2 МБ.',
+                'wrongExtension' => 'Разрешены только файлы с расширением png, jpg, jpeg.',
             ],
             [
                 ['imageFile'],
@@ -62,7 +64,9 @@ class Film extends ActiveRecord
                 'skipOnEmpty' => true,
                 'on' => 'update',
                 'extensions' => 'png, jpg, jpeg',
-                'maxSize' => 2 * 1024 * 1024
+                'maxSize' => 2 * 1024 * 1024,
+                'tooBig' => 'Размер файла не должен превышать 2 МБ.',
+                'wrongExtension' => 'Разрешены только файлы с расширением png, jpg, jpeg.',
             ],
         ];
     }
